@@ -1,0 +1,425 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Connection testing script</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <style>
+            .string {
+                color: green;
+            }
+            .number {
+                color: darkorange;
+            }
+            .boolean {
+                color: blue;
+            }
+            .null {
+                color: magenta;
+            }
+            .key {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+    <center>
+        This testing script is fully functioning in any local or remote server.<br><br>
+        You can instant communicate with our back-end server, and process the function like, <br>
+        Change current user, New Topic, Reply a Topic, Delete a Topic, <br>
+        Instant translate the message in any languages (more than 90 languages) etc..by using json<br><br>
+        You can render all json result data into html template by using any html template engine.<br>
+        e.g. <a href="http://handlebarsjs.com/" target="_blank">http://handlebarsjs.com/</a><br><br>
+        All data in here are temporarily for testing. You don't need to worry about mess up our database,<br>
+        give it a try ^^.
+    </center>
+
+    <!-- The data-ctrl is different user, We change the user for testing. -->
+
+    <!-- data-ctrl = "1111111111" -->
+    <!-- data-ctrl = "2222222222" -->
+    <!-- data-ctrl = "3333333333" -->
+    <!-- data-ctrl = "4444444444" -->
+    <!-- data-ctrl = "5555555555" -->
+
+    <div id="comment-param" data-ctrl = "1111111111"></div>
+    <script type="text/javascript">
+
+        var comments_url = "http://ibxbase.mxspecials.com/admin/ajaxp/comments/";
+
+        /*
+         * We use config file to setup the color scheme, and language that we're using
+         * We can very easy to change color or any language, By change the value below.
+         */
+
+        var comments_config = {
+            /* This is the color settings */
+            vote_btn_color_scheme_normal: '', // You set some color here..
+            vote_btn_color_scheme_mouseover: '',
+            vote_btn_color_scheme_selected: '',
+            vote_text_color_scheme_normal: '',
+            vote_text_color_scheme_mouseover: '',
+            vote_text_color_scheme_selected: '',
+            text_title_color_scheme_normal: '',
+            text_title_color_scheme_mouseover: '',
+            text_title_color_scheme_selected: '',
+            text_color_scheme_normal: '',
+            text_color_scheme_mouseover: '',
+            text_color_scheme_selected: '',
+            upvote_tips: 'If you like the topic !',
+            downvote_tips: "If you don't like it, or it is spam !",
+            allow_vote_topic: true,
+            allow_vote_message: false,
+            allow_offer_reward_topic: true,
+            allow_reward_topic: true,
+            allow_reward_message: true,
+            allow_enter_topic_title: true,
+            allow_enter_topic_url: true,
+            allow_enter_reply_title: false,
+            allow_enter_reply_url: true,
+            docs_per_page_topic: 5,
+            docs_per_page_message: 5,
+            text_new_topic: "新貼子",
+            text_sort_new_message: '最新留言',
+            text_sort_old_message: '最舊留言',
+            text_sort_vote_message: '最熱排行',
+            text_sort_update_message: '最近更新',
+            text_sort_reward_message: '打賞排行',
+            text_reward_amount: '打賞金額',
+            text_submit: '提交',
+            text_subscribe_message_create: '关注问题',
+            text_subscribe_message_remove: '取消关注',
+            text_reply_button_open: '条评论',
+            text_reply_button_close: '收起评论',
+            text_reply_button_write: '添加评论',
+            text_share: '分享',
+            text_reward: '打賞',
+            text_translate: '翻譯',
+            text_report: '举报',
+            text_edit: '修改',
+            text_delete: '刪除',
+            text_upload: '上傳',
+            text_setting: '設置',
+            text_reply: '回复',
+            text_content_show_all: '显示全部',
+            text_content_show_half: '收起',
+            /* If we need more text, We can add more in here. */
+        }
+
+        /* Change to new_topic */
+        function new_topic() {
+
+            var url = comments_url + "new_topic";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                title: $('#new_topic_title').val(),
+                content: $('#new_topic_content').val(),
+                url: $('#new_topic_url').val(),
+                reward: $('#new_topic_reward').val(),
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_reply() {
+
+            var url = comments_url + "message_reply";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#reply_bbs_message_id').val(),
+                content: $('#reply_content').val(),
+                url: $('#reply_url').val(),
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_delete() {
+
+            var url = comments_url + "message_delete";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#delete_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_modify() {
+
+            var url = comments_url + "message_modify";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#modify_bbs_message_id').val(),
+                title: $('#modify_title').val(),
+                content: $('#modify_content').val(),
+                url: $('#modify_url').val(),
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_subscribe() {
+
+            var url = comments_url + "message_subscribe";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#subscribe_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_translation() {
+
+            var url = comments_url + "message_translation";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#translation_bbs_message_id').val(),
+                lang: $('#lang').val(), // We can translate any language real time en, ko, zh, zh-TW, ru ... 
+                length: $('#translation_length').val(), // short | long, Short - translate half part of text, long - translate the whole text.
+            };
+            submit_command(url, post_data);
+        }
+
+        function message_vote() {
+
+            var url = comments_url + "message_vote";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#vote_bbs_message_id').val(),
+                vote: $('#vote').val(), // up | down
+            };
+            submit_command(url, post_data);
+        }
+
+        function get_current_user_information() {
+
+            var url = comments_url + "get_current_user_information";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+            };
+
+            submit_command(url, post_data);
+        }
+
+        function list_topic() {
+            var url = comments_url + "list_topic";
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                order_by: $('#sort_topic').val(), /* We can change to vote|new|old|update|reward */
+                docs_per_page_topic: comments_config.docs_per_page_topic,
+                page: $('#topic_page').val(),
+                statistic: 'no', /* no - will list all data, yes - only list the report */
+            };
+            submit_command(url, post_data);
+        }
+
+        function list_message() {
+
+            var url = comments_url + "list_message";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#topic_bbs_message_id').val(),
+                order_by: $('#sort_reply').val(), /* We can use: vote|new|old|update|reward */
+                docs_per_page_topic: comments_config.docs_per_page_message,
+                page: $('#reply_page').val(),
+                statistic: 'no', /* no - will list all data, yes - only list the report */
+            };
+
+            submit_command(url, post_data);
+        }
+
+        function list_availiable_language_style1() {
+
+            var url = comments_url + "list_availiable_language_style1";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                lang: $('#lang_1').val(),
+            };
+
+            submit_command(url, post_data);
+        }
+
+        function list_availiable_language_style2() {
+
+            var url = comments_url + "list_availiable_language_style2";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+            };
+
+            submit_command(url, post_data);
+        }
+
+    </script>
+    <br>
+    <br>
+    <button class="move_bottom" onClick="get_current_user_information();">Get current user information</button>
+    <br>
+    <br>
+    <label for="select">Sort</label>
+    <select name="sort_topic" id="sort_topic">
+        <option value="new">New Topic</option>
+        <option value="vote">Hot Topic</option>
+        <option value="old">Old Topic</option>
+        <option value="update">Last updated Topic</option>
+        <option value="reward">Reward Topic</option>
+    </select>
+    Page:<input name="topic_page" id="topic_page" type="text" size="2" placeholder="page" value="1" onclick="this.select()">&nbsp;<button class="move_bottom" onClick="list_topic();">List Topic</button> list topic
+    <br>
+    <br>
+    <label for="select">Sort</label>
+    <select name="sort_reply" id="sort_reply">
+        <option value="new">New Topic</option>
+        <option value="vote">Hot Topic</option>
+        <option value="old">Old Topic</option>
+        <option value="update">Last updated Topic</option>
+        <option value="reward">Reward Topic</option>
+    </select>
+    <input name="topic_bbs_message_id" id="topic_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;Page:<input name="reply_page" id="reply_page" type="text" size="2" placeholder="page" value="1" onclick="this.select()">&nbsp;<input name="" type="button" value="List Reply" class="move_bottom" onClick="list_message();"> list reply<br><br>
+    <input name="delete_bbs_message_id" id="delete_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Delete Message" class="move_bottom"onClick="message_delete();"><br><br>
+    <input name="subscribe_bbs_message_id" id="subscribe_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Subscribe Message" class="move_bottom" onClick="message_subscribe();"><br><br>
+    <input name="translation_bbs_message_id" id="translation_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="lang" id="lang" type="text" placeholder="en" size="2" onclick="this.select()" value="ko">&nbsp;
+
+    <label for="select">Length</label>
+    <select name="translation_length" id="translation_length">
+        <option value="short">Short</option>
+        <option value="long">Long</option>
+    </select>    
+
+    <input name="" type="button" value="Translate Message" class="move_bottom" onClick="message_translation();"><br><br>
+    <input name="lang_1" id="lang_1" type="text" placeholder="en" size="2" onclick="this.select()" value="ko">&nbsp;<input name="" type="button" value="Language #1" class="move_bottom" onClick="list_availiable_language_style1();">&nbsp;<input name="" type="button" value="Language #2" class="move_bottom" onClick="list_availiable_language_style2();"> There are all the languages that we can translate<br>
+    <p>
+        <label for="select">Change current user for testing</label><br>
+        <select name="select" id="select" onChange="change_user(this.value);">
+            <option value="1111111111">User - 川崎歺又米</option>
+            <option value="2222222222">User - 時尚小美</option>
+            <option value="3333333333">User - 雷克萨斯</option>
+            <option value="4444444444">User - 刘一鸣 </option>
+            <option value="5555555555">User - 张小北</option>
+        </select>
+    </p>
+    <p>New Topic<br>
+        <input type="text" name="new_topic_title" id="new_topic_title" placeholder="title" onclick="this.select();">
+        <br>
+        <textarea name="new_topic_content" id="new_topic_content" rows="3" placeholder="content" onclick="this.select();"></textarea>
+        <br>
+        <input type="text" name="new_topic_url" id="new_topic_url" placeholder="http://www.some-web-site.com"><br>
+        Reward (If you want to give a reward to someone who giving you the best answer of your topic enter reward amount here.)<br>
+        <input type="text" name="new_topic_reward" id="new_topic_reward" placeholder="30">
+        <br>
+        <input type="button" name="button" id="button" value="New Topic" class="move_bottom" onClick="new_topic();">
+        <br><br>
+
+    <p>Modify Topic/Message/Reply<br>
+        <input type="text" name="modify_bbs_message_id" id="modify_bbs_message_id" placeholder="bbs_message_id" onclick="this.select();"><br>
+        <input type="text" name="modify_title" id="modify_title" placeholder="title">
+        <br>
+        <textarea name="modify_content" id="modify_content" rows="3" placeholder="content"></textarea>
+        <br>
+        <input type="text" name="modify_url" id="modify_url" placeholder="http://www.some-web-site.com">
+        <br>
+        <input type="button" name="button" id="button" value="Modify Message" class="move_bottom" onClick="message_modify();">
+        <br><br>
+
+        Reply Message<br>
+        <input type="text" name="reply_bbs_message_id" id="reply_bbs_message_id" placeholder="bbs_message_id" onclick="this.select();">
+        <br>
+        <textarea name="reply_content" id="reply_content" rows="3" placeholder="content"></textarea>
+        <br>
+        <input type="text" name="reply_url" id="reply_url" placeholder="http://www.some-web-site.com">
+        <br>
+        <input type="button" name="button" id="button" value="Reply Message" class="move_bottom" onClick="message_reply();"><br><br>
+
+        <label for="select3">Vote</label>
+        <select name="vote" id="vote">
+            <option value="up">UP</option>
+            <option value="down">DOWN</option>
+        </select>
+        <input type="text" name="vote_bbs_message_id" id="vote_bbs_message_id" placeholder="bbs_message_id" onclick="this.select();">
+        <input type="button" name="button4" id="button4" value="Submit" class="move_bottom" onClick="message_vote();">
+
+        <br><br>
+
+        <input type="button" name="button" id="button" value="Clear" onClick="clean_debug();"><br><br>
+
+    </p>
+
+    <pre id="debug"></pre>
+</body>
+</html>
+<script>
+
+    $(document).ready(function () {
+
+        $.postJSON = function (url, data, func)
+        {
+            $.post(url, JSON.parse(JSON.stringify(data)), func, 'json');
+        }
+
+        $(".move_bottom").click(function () {
+            $(window).scrollTop($(document).height());
+        });
+    });
+
+    function submit_command(url, post_data) {
+
+        $.postJSON(url, post_data, function (data) {
+            eval(data['script']);
+            output(data);
+        });
+    }
+
+    function output(inp) {
+
+        var str = JSON.stringify(inp, null, 4);
+        $("#debug").html(syntaxHighlight(str));
+    }
+
+    function syntaxHighlight(json) {
+
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+
+    function change_user(ctrl) {
+
+        $('#comment-param').attr('data-ctrl', ctrl);
+    }
+
+    function clean_debug() {
+
+        $("#debug").html('');
+        $('#new_topic_title').val('');
+        $('#new_topic_content').val('');
+        $('#new_topic_url').val('');
+        $('#new_topic_reward').val('');
+
+        $('#reply_bbs_message_id').val('');
+        $('#reply_content').val('');
+
+        $('#topic_page').val(1);
+        $('#reply_page').val(1);
+    }
+
+</script>
