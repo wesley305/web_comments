@@ -107,7 +107,11 @@
                     url: $('#new_topic_url').val(),
                     reward: $('#new_topic_reward').val(),
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_reply() {
@@ -120,7 +124,11 @@
                     content: $('#reply_content').val(),
                     url: $('#reply_url').val(),
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_delete() {
@@ -131,7 +139,11 @@
                     ctrl: $('#comment-param').attr('data-ctrl'),
                     bbs_message_id: $('#delete_bbs_message_id').val(),
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_modify() {
@@ -145,7 +157,11 @@
                     content: $('#modify_content').val(),
                     url: $('#modify_url').val(),
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_subscribe() {
@@ -156,7 +172,11 @@
                     ctrl: $('#comment-param').attr('data-ctrl'),
                     bbs_message_id: $('#subscribe_bbs_message_id').val(),
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_translation() {
@@ -169,7 +189,11 @@
                     lang: $('#lang').val(), // We can translate any language real time en, ko, zh, zh-TW, ru ... 
                     length: $('#translation_length').val(), // short | long, Short - translate half part of text, long - translate the whole text.
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function message_vote() {
@@ -181,7 +205,11 @@
                     bbs_message_id: $('#vote_bbs_message_id').val(),
                     vote: $('#vote').val(), // up | down
                 };
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function get_current_user_information() {
@@ -191,8 +219,11 @@
                 var post_data = {
                     ctrl: $('#comment-param').attr('data-ctrl'),
                 };
-
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function list_topic() {
@@ -208,26 +239,23 @@
                 };
 
                 submit_command(url, post_data, function (result) {
-
 //                    output(result['data']);
                     var context = result['data'];
-//                    template_replace('entry-template', 'topic', context);
 
                     template_render({
                         template: 'entry-template',
                         target_div: 'topic',
                         json_data: context,
-                        add_method: 'replace',
+                        add_method: 'append', // append | replace
                     });
                 });
             }
 
+            /**
+             * 
+             * @param string data.add_method append | replace
+             */
             function template_render(data) {
-
-                var template = data.template;
-                var target_div = data.target_div;
-                var json_data = data.json_data;
-                var add_method = data.add_method; // append or replace
 
                 Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
 
@@ -268,14 +296,14 @@
                     }
                 });
 
-                var theTemplateScript = $("#" + template).html();
+                var theTemplateScript = $("#" + data.template).html();
                 var theTemplate = Handlebars.compile(theTemplateScript);
-                var theCompiledHtml = theTemplate(json_data);
+                var theCompiledHtml = theTemplate(data.json_data);
 
-                if (add_method !== 'append') {
-                    $('#' + target_div).html(theCompiledHtml);
+                if (data.add_method !== 'append') {
+                    $('.' + data.target_div).html(theCompiledHtml);
                 } else {
-                    $('#' + target_div).append(theCompiledHtml);
+                    $('.' + data.target_div).append(theCompiledHtml);
                 }
             }
 
@@ -291,8 +319,11 @@
                     page: $('#reply_page').val(),
                     statistic: 'no', /* no - will list all data, yes - only list the report */
                 };
-
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function list_availiable_language_style1() {
@@ -303,8 +334,11 @@
                     ctrl: $('#comment-param').attr('data-ctrl'),
                     lang: $('#lang_1').val(),
                 };
-
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
             function list_availiable_language_style2() {
@@ -314,46 +348,16 @@
                 var post_data = {
                     ctrl: $('#comment-param').attr('data-ctrl'),
                 };
-
-                submit_command(url, post_data);
+                
+                submit_command(url, post_data, function (result) {
+                    
+                    output(result['data']);
+                });
             }
 
-            $(document).ready(function () {
-
-                var context = {
-                    status: 'ok',
-                    number: 12,
-                    street: 1234,
-                }
-
-                $(function () {
-                    // Grab the template script
-                    var theTemplateScript = $("#address-template").html();
-
-                    // Compile the template
-                    var theTemplate = Handlebars.compile(theTemplateScript);
-
-                    // Define our data object
-
-                    // Pass our data to the template
-                    var theCompiledHtml = theTemplate(context);
-
-                    // Add the compiled html to the page
-                    $('.content-placeholder').html(theCompiledHtml);
-                });
-            });
 
         </script>
         <br>
-
-        <!--This is our template. -->
-        <!--Data will be inserted in its according place, replacing the brackets.-->
-        <script id="address-template" type="text/x-handlebars-template">
-            <p>You can find me in {{status}}. My address is {{number}} {{street}}.</p>
-        </script>
-
-        <!--Your new content will be displayed in here-->
-        <div class="content-placeholder"></div>
 
         <label for="select">Sort</label>
         <select name="sort_topic" id="sort_topic">
@@ -385,7 +389,7 @@
 
         <br><br>
 
-        <div id="topic"></div>        
+        <div class="topic"></div>        
         <pre id="debug"></pre>
 
     </body>
@@ -393,11 +397,6 @@
 <script>
 
     $(document).ready(function () {
-
-        $.postJSON = function (url, data, func)
-        {
-            $.post(url, JSON.parse(JSON.stringify(data)), func, 'json');
-        }
 
         $(".move_bottom").click(function () {
             $(window).scrollTop($(document).height());
@@ -412,8 +411,7 @@
             data: JSON.parse(JSON.stringify(post_data)),
             dataType: "json",
             success: function (data) {
-//                alert(data['status']);
-//                eval(data['script']);
+                eval(data['script']);
                 callback(data);
             },
             failure: function (errMsg) {
