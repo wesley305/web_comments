@@ -198,7 +198,7 @@
             function list_topic() {
 
                 var url = comments_url + "list_topic";
-                
+
                 var post_data = {
                     ctrl: $('#comment-param').attr('data-ctrl'),
                     order_by: $('#sort_topic').val(), /* We can change to vote|new|old|update|reward */
@@ -208,7 +208,8 @@
                 };
 
                 submit_command(url, post_data);
-             }
+
+            }
 
             function list_message() {
 
@@ -324,7 +325,7 @@
 //                alert(data['status']);
 //                eval(data['script']);
                 output(data);
-                
+
             },
             failure: function (errMsg) {
                 alert(errMsg);
