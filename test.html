@@ -157,6 +157,39 @@
             };
             submit_command(url, post_data);
         }
+        
+        function message_setting() {
+
+            var url = comments_url + "message_setting";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#setting_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }
+        
+        function message_report() {
+
+            var url = comments_url + "message_report";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#report_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }        
+        
+        function message_share() {
+
+            var url = comments_url + "message_share";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#share_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }
 
         function message_subscribe() {
 
@@ -282,9 +315,12 @@
         <option value="reward">Reward Topic</option>
     </select>
     <input name="topic_bbs_message_id" id="topic_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;Page:<input name="reply_page" id="reply_page" type="text" size="2" placeholder="page" value="1" onclick="this.select()">&nbsp;<input name="" type="button" value="List Reply" class="move_bottom" onClick="list_message();"> list reply<br><br>
-    <input name="delete_bbs_message_id" id="delete_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Delete Message" class="move_bottom"onClick="message_delete();"><br><br>
+    <input name="delete_bbs_message_id" id="delete_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Delete Message" class="move_bottom" onClick="message_delete();"><br><br>
     <input name="subscribe_bbs_message_id" id="subscribe_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Subscribe Message" class="move_bottom" onClick="message_subscribe();"><br><br>
-    <input name="translation_bbs_message_id" id="translation_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="lang" id="lang" type="text" placeholder="en" size="2" onclick="this.select()" value="ko">&nbsp;
+    <input name="share_bbs_message_id" id="share_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Share Message" class="move_bottom" onClick="message_share();"><br><br>
+    <input name="setting_bbs_message_id" id="setting_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Message Setting" class="move_bottom" onClick="message_setting();"><br><br>
+    <input name="report_bbs_message_id" id="report_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Report Message" class="move_bottom" onClick="message_report();"><br><br>
+    <input name="translation_bbs_message_id" id="translation_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="lang" id="lang" type="text" placeholder="en" size="2" onclick="this.select()" value="gu">&nbsp;
 
     <label for="select">Length</label>
     <select name="translation_length" id="translation_length">
@@ -293,7 +329,7 @@
     </select>    
 
     <input name="" type="button" value="Translate Message" class="move_bottom" onClick="message_translation();"><br><br>
-    <input name="lang_1" id="lang_1" type="text" placeholder="en" size="2" onclick="this.select()" value="ko">&nbsp;<input name="" type="button" value="Language #1" class="move_bottom" onClick="list_availiable_language_style1();">&nbsp;<input name="" type="button" value="Language #2" class="move_bottom" onClick="list_availiable_language_style2();"> There are all the languages that we can translate<br>
+    <input name="lang_1" id="lang_1" type="text" placeholder="en" size="2" onclick="this.select()" value="gu">&nbsp;<input name="" type="button" value="Language #1" class="move_bottom" onClick="list_availiable_language_style1();">&nbsp;<input name="" type="button" value="Language #2" class="move_bottom" onClick="list_availiable_language_style2();"> There are all the languages that we can translate<br>
     <p>
         <label for="select">Change current user for testing</label><br>
         <select name="select" id="select" onChange="change_user(this.value);">
@@ -417,6 +453,11 @@
 
         $('#reply_bbs_message_id').val('');
         $('#reply_content').val('');
+
+        $('#share_bbs_message_id').val('');
+        $('#setting_bbs_message_id').val('');
+        $('#report_bbs_message_id').val('');
+        $('#translation_bbs_message_id').val('');
 
         $('#topic_page').val(1);
         $('#reply_page').val(1);
