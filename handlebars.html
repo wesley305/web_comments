@@ -207,10 +207,76 @@
                     statistic: 'no', /* no - will list all data, yes - only list the report */
                 };
 
-                submit_command(url, post_data, function(result){
-                    alert(result);
+                submit_command(url, post_data, function (result) {
+
+//                    output(result['data']);
+                    var context = result['data'];
+//                    template_replace('entry-template', 'topic', context);
+
+                    template_render({
+                        template: 'entry-template',
+                        target_div: 'topic',
+                        json_data: context,
+                        add_method: 'replace',
+                    });
+                });
+            }
+
+            function template_render(data) {
+
+                var template = data.template;
+                var target_div = data.target_div;
+                var json_data = data.json_data;
+                var add_method = data.add_method; // append or replace
+
+                Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+
+                    switch (operator)
+                    {
+                        case "==":
+                            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+
+                        case "!=":
+                            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+
+                        case "===":
+                            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+
+                        case "!==":
+                            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+
+                        case "&&":
+                            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+
+                        case "||":
+                            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<":
+                            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<=":
+                            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">":
+                            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">=":
+                            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+
+                        default:
+                            return eval("" + v1 + operator + v2) ? options.fn(this) : options.inverse(this);
+                    }
                 });
 
+                var theTemplateScript = $("#" + template).html();
+                var theTemplate = Handlebars.compile(theTemplateScript);
+                var theCompiledHtml = theTemplate(json_data);
+
+                if (add_method !== 'append') {
+                    $('#' + target_div).html(theCompiledHtml);
+                } else {
+                    $('#' + target_div).append(theCompiledHtml);
+                }
             }
 
             function list_message() {
@@ -254,21 +320,26 @@
 
             $(document).ready(function () {
 
+                var context = {
+                    status: 'ok',
+                    number: 12,
+                    street: 1234,
+                }
+
                 $(function () {
                     // Grab the template script
-//                    var theTemplateScript = $("#address-template").html();
+                    var theTemplateScript = $("#address-template").html();
 
                     // Compile the template
-//                    var theTemplate = Handlebars.compile(theTemplateScript);
+                    var theTemplate = Handlebars.compile(theTemplateScript);
 
                     // Define our data object
-//                    var context = list_topic();
 
                     // Pass our data to the template
-//                    var theCompiledHtml = theTemplate(context);
+                    var theCompiledHtml = theTemplate(context);
 
                     // Add the compiled html to the page
-//                    $('.content-placeholder').html(theCompiledHtml);
+                    $('.content-placeholder').html(theCompiledHtml);
                 });
             });
 
@@ -284,9 +355,6 @@
         <!--Your new content will be displayed in here-->
         <div class="content-placeholder"></div>
 
-
-
-
         <label for="select">Sort</label>
         <select name="sort_topic" id="sort_topic">
             <option value="new">New Topic</option>
@@ -296,10 +364,30 @@
             <option value="reward">Reward Topic</option>
         </select>
         Page:<input name="topic_page" id="topic_page" type="text" size="2" placeholder="page" value="1" onclick="this.select()">&nbsp;<button class="move_bottom" onClick="list_topic();">List Topic</button> list topic
-        <br>        
+        <br>    
 
+        <script id="entry-template" type="text/x-handlebars-template">
+            <div class="entry">
+            {{#each result}}
+            <div class="body">
+            
+            {{#ifCond title '==' 'Hi'}}
+                This is 'Hi' ~ {{title}}<br>
+            {{else}}
+                {{title}}<br>
+            {{/ifCond}}
+            
+            {{content}}<br><br>
+            </div>
+            {{/each}}
+            </div>
+        </script>        
 
+        <br><br>
+
+        <div id="topic"></div>        
         <pre id="debug"></pre>
+
     </body>
 </html>
 <script>
@@ -326,7 +414,6 @@
             success: function (data) {
 //                alert(data['status']);
 //                eval(data['script']);
-                output(data);
                 callback(data);
             },
             failure: function (errMsg) {
