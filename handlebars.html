@@ -207,7 +207,9 @@
                     statistic: 'no', /* no - will list all data, yes - only list the report */
                 };
 
-                submit_command(url, post_data);
+                submit_command(url, post_data, function(result){
+                    alert(result);
+                });
 
             }
 
@@ -314,7 +316,7 @@
         });
     });
 
-    function submit_command(url, post_data) {
+    function submit_command(url, post_data, callback) {
 
         return $.ajax({
             type: "POST",
@@ -325,7 +327,7 @@
 //                alert(data['status']);
 //                eval(data['script']);
                 output(data);
-
+                callback(data);
             },
             failure: function (errMsg) {
                 alert(errMsg);
