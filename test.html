@@ -117,7 +117,10 @@
                 url: $('#new_topic_url').val(),
                 reward: $('#new_topic_reward').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_reply() {
@@ -130,7 +133,10 @@
                 content: $('#reply_content').val(),
                 url: $('#reply_url').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_delete() {
@@ -141,7 +147,10 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#delete_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_modify() {
@@ -155,9 +164,12 @@
                 content: $('#modify_content').val(),
                 url: $('#modify_url').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
-        
+
         function message_setting() {
 
             var url = comments_url + "message_setting";
@@ -166,9 +178,12 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#setting_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
-        
+
         function message_report() {
 
             var url = comments_url + "message_report";
@@ -177,9 +192,12 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#report_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
-        }        
-        
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
+        }
+
         function message_share() {
 
             var url = comments_url + "message_share";
@@ -188,7 +206,10 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#share_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_subscribe() {
@@ -199,7 +220,10 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#subscribe_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_translation() {
@@ -212,7 +236,10 @@
                 lang: $('#lang').val(), // We can translate any language real time en, ko, zh, zh-TW, ru ... 
                 length: $('#translation_length').val(), // short | long, Short - translate half part of text, long - translate the whole text.
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function message_vote() {
@@ -224,9 +251,12 @@
                 bbs_message_id: $('#vote_bbs_message_id').val(),
                 vote: $('#vote').val(), // up | down
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
-        
+
         function get_message() {
 
             var url = comments_url + "get_message";
@@ -235,7 +265,10 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#get_bbs_message_id').val(),
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function get_current_user_information() {
@@ -245,12 +278,16 @@
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
             };
-
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function list_topic() {
+
             var url = comments_url + "list_topic";
+
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 order_by: $('#sort_topic').val(), /* We can change to vote|new|old|update|reward */
@@ -258,7 +295,10 @@
                 page: $('#topic_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function list_message() {
@@ -273,8 +313,10 @@
                 page: $('#reply_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
-
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function list_availiable_language_style1() {
@@ -285,8 +327,10 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 lang: $('#lang_1').val(),
             };
-
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
         function list_availiable_language_style2() {
@@ -296,8 +340,10 @@
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
             };
-
-            submit_command(url, post_data);
+            
+            submit_command(url, post_data, function (result) {
+                output(result['data']);
+            });
         }
 
     </script>
@@ -405,21 +451,25 @@
 
     $(document).ready(function () {
 
-        $.postJSON = function (url, data, func)
-        {
-            $.post(url, JSON.parse(JSON.stringify(data)), func, 'json');
-        }
-
         $(".move_bottom").click(function () {
             $(window).scrollTop($(document).height());
         });
     });
 
-    function submit_command(url, post_data) {
+    function submit_command(url, post_data, callback) {
 
-        $.postJSON(url, post_data, function (data) {
-            eval(data['script']);
-            output(data);
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.parse(JSON.stringify(post_data)),
+            dataType: "json",
+            success: function (data) {
+                eval(data['script']);
+                callback(data);
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
         });
     }
 
