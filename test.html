@@ -226,6 +226,17 @@
             };
             submit_command(url, post_data);
         }
+        
+        function get_message() {
+
+            var url = comments_url + "get_message";
+
+            var post_data = {
+                ctrl: $('#comment-param').attr('data-ctrl'),
+                bbs_message_id: $('#get_bbs_message_id').val(),
+            };
+            submit_command(url, post_data);
+        }
 
         function get_current_user_information() {
 
@@ -320,6 +331,7 @@
     <input name="share_bbs_message_id" id="share_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Share Message" class="move_bottom" onClick="message_share();"><br><br>
     <input name="setting_bbs_message_id" id="setting_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Message Setting" class="move_bottom" onClick="message_setting();"><br><br>
     <input name="report_bbs_message_id" id="report_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Report Message" class="move_bottom" onClick="message_report();"><br><br>
+    <input name="get_bbs_message_id" id="get_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="" type="button" value="Get Message" class="move_bottom" onClick="get_message();"><br><br>
     <input name="translation_bbs_message_id" id="translation_bbs_message_id" type="text" placeholder="bbs_message_id" onclick="this.select()">&nbsp;<input name="lang" id="lang" type="text" placeholder="en" size="2" onclick="this.select()" value="gu">&nbsp;
 
     <label for="select">Length</label>
