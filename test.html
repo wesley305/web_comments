@@ -116,7 +116,7 @@
                 url: $('#new_topic_url').val(),
                 reward: $('#new_topic_reward').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -132,7 +132,7 @@
                 content: $('#reply_content').val(),
                 url: $('#reply_url').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -146,7 +146,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#delete_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -163,7 +163,7 @@
                 content: $('#modify_content').val(),
                 url: $('#modify_url').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -177,7 +177,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#setting_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -191,7 +191,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#report_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -205,7 +205,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#share_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -219,7 +219,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#subscribe_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -235,7 +235,7 @@
                 lang: $('#lang').val(), // We can translate any language real time en, ko, zh, zh-TW, ru ... 
                 length: $('#translation_length').val(), // short | long, Short - translate half part of text, long - translate the whole text.
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -250,7 +250,7 @@
                 bbs_message_id: $('#vote_bbs_message_id').val(),
                 vote: $('#vote').val(), // up | down
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -264,7 +264,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#get_bbs_message_id').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -277,7 +277,7 @@
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -294,7 +294,7 @@
                 page: $('#topic_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -312,7 +312,7 @@
                 page: $('#reply_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -326,7 +326,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 lang: $('#lang_1').val(),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -339,7 +339,7 @@
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
             };
-            
+
             submit_command(url, post_data, function (result) {
                 output(result['data']);
             });
@@ -348,9 +348,20 @@
     </script>
     <br>
     <br>
+    <label for="select">Change current user for testing</label><br><br>
+    <select name="select" id="select" onChange="change_user(this.value);">
+        <option value="1111111111">User - 川崎歺又米</option>
+        <option value="2222222222">User - 時尚小美</option>
+        <option value="3333333333">User - 雷克萨斯</option>
+        <option value="4444444444">User - 刘一鸣 </option>
+        <option value="5555555555">User - 张小北</option>
+    </select>    
     <button class="move_bottom" onClick="get_current_user_information();">Get current user information</button>
     <br>
     <br>
+    <br>
+    <br>
+
     <label for="select">Sort</label>
     <select name="sort_topic" id="sort_topic">
         <option value="new">New Topic</option>
@@ -387,16 +398,7 @@
 
     <input name="" type="button" value="Translate Message" class="move_bottom" onClick="message_translation();"><br><br>
     <input name="lang_1" id="lang_1" type="text" placeholder="en" size="2" onclick="this.select()" value="gu">&nbsp;<input name="" type="button" value="Language #1" class="move_bottom" onClick="list_availiable_language_style1();">&nbsp;<input name="" type="button" value="Language #2" class="move_bottom" onClick="list_availiable_language_style2();"> There are all the languages that we can translate<br>
-    <p>
-        <label for="select">Change current user for testing</label><br>
-        <select name="select" id="select" onChange="change_user(this.value);">
-            <option value="1111111111">User - 川崎歺又米</option>
-            <option value="2222222222">User - 時尚小美</option>
-            <option value="3333333333">User - 雷克萨斯</option>
-            <option value="4444444444">User - 刘一鸣 </option>
-            <option value="5555555555">User - 张小北</option>
-        </select>
-    </p>
+
     <p>New Topic<br>
         <input type="text" name="new_topic_title" id="new_topic_title" placeholder="title" onclick="this.select();">
         <br>
@@ -418,9 +420,9 @@
         <input type="text" name="modify_url" id="modify_url" placeholder="http://www.some-web-site.com">
         <br>
         <input type="button" name="button" id="button" value="Modify Message" class="move_bottom" onClick="message_modify();">
-        <br><br>
+        <br><br></p>
 
-        Reply Message<br>
+    <p> Reply Message<br>
         <input type="text" name="reply_bbs_message_id" id="reply_bbs_message_id" placeholder="bbs_message_id" onclick="this.select();">
         <br>
         <textarea name="reply_content" id="reply_content" rows="3" placeholder="content"></textarea>
@@ -428,7 +430,9 @@
         <input type="text" name="reply_url" id="reply_url" placeholder="http://www.some-web-site.com">
         <br>
         <input type="button" name="button" id="button" value="Reply Message" class="move_bottom" onClick="message_reply();"><br><br>
+    </p>
 
+    <p>
         <label for="select3">Vote</label>
         <select name="vote" id="vote">
             <option value="up">UP</option>
@@ -436,11 +440,8 @@
         </select>
         <input type="text" name="vote_bbs_message_id" id="vote_bbs_message_id" placeholder="bbs_message_id" onclick="this.select();">
         <input type="button" name="button4" id="button4" value="Submit" class="move_bottom" onClick="message_vote();">
-
         <br><br>
-
         <input type="button" name="button" id="button" value="Clear" onClick="clean_debug();"><br><br>
-
     </p>
 
     <pre id="debug"></pre>
