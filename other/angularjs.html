@@ -393,23 +393,44 @@
         </script>        
 
         <br><br>
-
-        <div ng-app="myApp" ng-controller="myCtrl">
-
-            <h1>{{carname}}</h1>
-
-        </div>
-
-        <script>
-            var app = angular.module('myApp', []);
-
-            app.controller('myCtrl', function ($scope, $http) {
-                $scope.carname = "Volvodd";
-            });
-        </script>        
-
         <div class="topic"></div>        
         <pre id="debug"></pre>
+
+        <script>
+            var app = angular.module("app", []);
+            
+            var url = comments_url + "list_topic";
+            
+            app.controller("HttpGetController", function ($scope, $http) {
+
+                $scope.SendData = function () {
+                    // use $.param jQuery function to serialize data from JSON 
+                    var data = $.param({
+                        fName: $scope.firstName,
+                        lName: $scope.lastName
+                    });
+
+                    var config = {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                        }
+                    }
+
+                    $http.post('http://ibxbase.mxspecials.com/admin/ajaxp/comments/list_topic', data, config)
+                            .success(function (data, status, headers, config) {
+                                $scope.PostDataResponse = data;
+                            })
+                            .error(function (data, status, header, config) {
+                                $scope.ResponseDetails = "Data: " + data +
+                                        "<hr />status: " + status +
+                                        "<hr />headers: " + header +
+                                        "<hr />config: " + config;
+                            });
+                };
+
+            });
+        </script>
+
 
     </body>
 </html>
@@ -421,7 +442,6 @@
             $(window).scrollTop($(document).height());
         });
     });
-
     function submit_command(url, post_data, callback) {
 
         return $.ajax({
@@ -443,14 +463,12 @@
 
         var inp = JSON.stringify(inp, null, 4);
         $("#debug").html(syntaxHighlight(inp));
-
 //        $("#debug").html(syntaxHighlight(inp));
     }
 
     function syntaxHighlight(json) {
 
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
         return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
             var cls = 'number';
             if (/^"/.test(match)) {
@@ -480,10 +498,8 @@
         $('#new_topic_content').val('');
         $('#new_topic_url').val('');
         $('#new_topic_reward').val('');
-
         $('#reply_bbs_message_id').val('');
         $('#reply_content').val('');
-
         $('#topic_page').val(1);
         $('#reply_page').val(1);
     }
