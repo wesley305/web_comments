@@ -291,7 +291,7 @@
             var post_data = {
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 order_by: $('#sort_topic').val(), /* We can change to vote|new|old|update|reward */
-                docs_per_page_topic: comments_config.docs_per_page_topic,
+                docs_per_page: comments_config.docs_per_page_topic,
                 page: $('#topic_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
@@ -309,7 +309,7 @@
                 ctrl: $('#comment-param').attr('data-ctrl'),
                 bbs_message_id: $('#topic_bbs_message_id').val(),
                 order_by: $('#sort_reply').val(), /* We can use: vote|new|old|update|reward */
-                docs_per_page_topic: comments_config.docs_per_page_message,
+                docs_per_page: comments_config.docs_per_page_message,
                 page: $('#reply_page').val(),
                 statistic: 'no', /* no - will list all data, yes - only list the report */
             };
